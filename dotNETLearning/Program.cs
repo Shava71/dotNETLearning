@@ -27,7 +27,62 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<AuthenticationMiddleware>();
+app.UseMiddleware<RoutingMiddleware>();
 
 app.Run();
 
+public class RoutingMiddleware(RequestDelegate _)
+{
+    public async Task InvokeAsync(HttpContext context)
+    {
+        var path = context.Request.Path;
+
+        if (path == "/index")
+        {
+            await context.Response.WriteAsync("Home page");
+        }
+        else if (path == "/about")
+        {
+            await context.Response.WriteAsync("About page");
+        }
+        else
+        {
+            context.Response.StatusCode = 404;
+        }
+    }
+}
+
+public class AuthenticationMiddleware(RequestDelegate next)
+{
+    public async Task InvokeAsync(HttpContext context)
+    {
+        var token = context.Request.Query["token"];
+
+        if (string.IsNullOrEmpty(token))
+        {
+            context.Response.StatusCode = 403;
+        }
+        else
+        {
+            await next.Invoke(context);
+        }
+    }
+}
+
+public class ErrorHandlingMiddleware(RequestDelegate next)
+{
+    public async Task InvokeAsync(HttpContext context)
+    {
+        await next.Invoke(context);
+        if (context.Response.StatusCode == 403)
+        {
+            await context.Response.WriteAsync("Access Denied");
+        }
+        else if (context.Response.StatusCode == 404)
+        {
+            await context.Response.WriteAsync("Not Found");
+        }
+    }
+}
