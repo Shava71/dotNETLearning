@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ITimer, Timer>();
-builder.Services.AddScoped<TimeService>();
+builder.Services.AddTransient<IHelloService, RuHelloService>();
+builder.Services.AddTransient<IHelloService, EnHelloService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -28,58 +28,41 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-
+app.UseMiddleware<HelloMiddleware>();
 
 //app.Run(async context =>
 //{
   
 //});
-app.UseMiddleware<TimerMiddleware>();
 app.Run();
 
-public interface ITimer
+public interface IHelloService
 {
-    string Time { get; }
+    string Message { get; }
 }
 
-public class Timer : ITimer
+class RuHelloService : IHelloService
 {
-    public string Time { get; } = DateTime.Now.ToLongTimeString(); 
+    public string Message => "Привет, Метанит";
+}
+class EnHelloService : IHelloService
+{
+    public string Message => "Hello Metanit";
 }
 
-public class TimeService
+public class HelloMiddleware(RequestDelegate _, IEnumerable<IHelloService> helloServices)
 {
-    private ITimer timer;
+    private readonly IEnumerable<IHelloService> helloServices = helloServices;
 
-    public TimeService(ITimer timer)
+    public async Task InvokeAsync(HttpContext context)
     {
-        this.timer = timer;
-    }
+        context.Response.ContentType = "text/html; charset=utf-8";
 
-    public string GetTime() => timer.Time;
-}
-
-public class TimerMiddleware(RequestDelegate next, TimeService timeService)
-{
-    private RequestDelegate next = next;
-    private TimeService timeService = timeService;
-
-    //public async Task InvokeAsync(HttpContext context)
-    //{
-    //    if (context.Request.Path == "/time")
-    //    {
-    //        context.Response.ContentType = "text/html; charset=utf-8";
-    //        await context.Response.WriteAsync($"Currently time: {timeService?.Time}");
-    //    }
-    //    else
-    //    {
-    //        await next.Invoke(context);
-    //    }
-    //}
-    public async Task Invoke(HttpContext context)
-    {
-       
-        await context.Response.WriteAsync($"Currently time: {timeService?.GetTime()}");
-        
+        string responseText = "";
+        foreach (var service in helloServices)
+        {
+            responseText += $"<h3>{service.Message}</h3>";
+        }
+        await context.Response.WriteAsync(responseText);
     }
 }
