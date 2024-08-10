@@ -4,9 +4,8 @@ using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ICounter, RandomCounter>();
-builder.Services.AddTransient<CounterService>();
-
+builder.Services.AddTransient<ITimer, Timer>();
+builder.Services.AddScoped<TimeService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -29,12 +28,58 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseMiddleware<CounterMiddleware>();
+
 
 //app.Run(async context =>
 //{
   
 //});
-
+app.UseMiddleware<TimerMiddleware>();
 app.Run();
 
+public interface ITimer
+{
+    string Time { get; }
+}
+
+public class Timer : ITimer
+{
+    public string Time { get; } = DateTime.Now.ToLongTimeString(); 
+}
+
+public class TimeService
+{
+    private ITimer timer;
+
+    public TimeService(ITimer timer)
+    {
+        this.timer = timer;
+    }
+
+    public string GetTime() => timer.Time;
+}
+
+public class TimerMiddleware(RequestDelegate next, TimeService timeService)
+{
+    private RequestDelegate next = next;
+    private TimeService timeService = timeService;
+
+    //public async Task InvokeAsync(HttpContext context)
+    //{
+    //    if (context.Request.Path == "/time")
+    //    {
+    //        context.Response.ContentType = "text/html; charset=utf-8";
+    //        await context.Response.WriteAsync($"Currently time: {timeService?.Time}");
+    //    }
+    //    else
+    //    {
+    //        await next.Invoke(context);
+    //    }
+    //}
+    public async Task Invoke(HttpContext context)
+    {
+       
+        await context.Response.WriteAsync($"Currently time: {timeService?.GetTime()}");
+        
+    }
+}
