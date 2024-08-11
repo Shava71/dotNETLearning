@@ -1,11 +1,15 @@
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IHelloService, RuHelloService>();
-builder.Services.AddTransient<IHelloService, EnHelloService>();
+var valueStorage = new ValueStorage();
+
+builder.Services.AddSingleton<IGenerator>(valueStorage);
+builder.Services.AddSingleton<IReader>(valueStorage);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -28,41 +32,64 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseMiddleware<HelloMiddleware>();
-
+app.UseMiddleware<GeneratorMiddleware>();
+app.UseMiddleware<ReaderMiddleware>();
 //app.Run(async context =>
 //{
   
 //});
 app.Run();
 
-public interface IHelloService
+interface IGenerator
 {
-    string Message { get; }
+    int GenerateValue();
 }
 
-class RuHelloService : IHelloService
+interface IReader
 {
-    public string Message => "Привет, Метанит";
-}
-class EnHelloService : IHelloService
-{
-    public string Message => "Hello Metanit";
+    int ReadValue();
 }
 
-public class HelloMiddleware(RequestDelegate _, IEnumerable<IHelloService> helloServices)
+class ValueStorage : IGenerator, IReader
 {
-    private readonly IEnumerable<IHelloService> helloServices = helloServices;
+    int Value;
+
+    public int GenerateValue()
+    {
+        Value = new Random().Next();
+        return Value;
+    }
+
+    public int ReadValue() => Value;
+}
+
+class GeneratorMiddleware(RequestDelegate next, IGenerator generator)
+{
+    private RequestDelegate next = next;
+    private IGenerator generator = generator;
 
     public async Task InvokeAsync(HttpContext context)
     {
-        context.Response.ContentType = "text/html; charset=utf-8";
-
-        string responseText = "";
-        foreach (var service in helloServices)
+        if (context.Request.Path == "/generator")
         {
-            responseText += $"<h3>{service.Message}</h3>";
+            await context.Response.WriteAsync($"Generated value = {generator?.GenerateValue()}");
         }
-        await context.Response.WriteAsync(responseText);
+        else
+        {
+            next.Invoke(context);
+        }
+    }
+}
+
+class ReaderMiddleware(RequestDelegate next, IReader reader)
+{
+    private RequestDelegate next = next;
+    private IReader reader = reader;
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        
+        await context.Response.WriteAsync($"Current value = {reader?.ReadValue()}");
+       
     }
 }
