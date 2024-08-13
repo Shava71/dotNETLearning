@@ -6,10 +6,6 @@ using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var valueStorage = new ValueStorage();
-
-builder.Services.AddSingleton<IGenerator>(valueStorage);
-builder.Services.AddSingleton<IReader>(valueStorage);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -32,64 +28,16 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseMiddleware<GeneratorMiddleware>();
-app.UseMiddleware<ReaderMiddleware>();
+app.Map("/users/{id+1}/{name}", HandleRequest);
+app.Map("/users", () => "Users Page");
+app.Map("/", () => "Index Page");
 //app.Run(async context =>
 //{
-  
+
 //});
 app.Run();
 
-interface IGenerator
+string HandleRequest(string id, string name)
 {
-    int GenerateValue();
-}
-
-interface IReader
-{
-    int ReadValue();
-}
-
-class ValueStorage : IGenerator, IReader
-{
-    int Value;
-
-    public int GenerateValue()
-    {
-        Value = new Random().Next();
-        return Value;
-    }
-
-    public int ReadValue() => Value;
-}
-
-class GeneratorMiddleware(RequestDelegate next, IGenerator generator)
-{
-    private RequestDelegate next = next;
-    private IGenerator generator = generator;
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        if (context.Request.Path == "/generator")
-        {
-            await context.Response.WriteAsync($"Generated value = {generator?.GenerateValue()}");
-        }
-        else
-        {
-            next.Invoke(context);
-        }
-    }
-}
-
-class ReaderMiddleware(RequestDelegate next, IReader reader)
-{
-    private RequestDelegate next = next;
-    private IReader reader = reader;
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        
-        await context.Response.WriteAsync($"Current value = {reader?.ReadValue()}");
-       
-    }
+    return $"User Id: {id}   User Name: {name}";
 }
