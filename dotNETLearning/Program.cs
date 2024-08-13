@@ -28,16 +28,8 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Map("/users/{id+1}/{name}", HandleRequest);
-app.Map("/users", () => "Users Page");
+app.Map("/users/{id::int}", (int id) => $"User Id: {id}");
 app.Map("/", () => "Index Page");
-//app.Run(async context =>
-//{
 
-//});
 app.Run();
 
-string HandleRequest(string id, string name)
-{
-    return $"User Id: {id}   User Name: {name}";
-}
