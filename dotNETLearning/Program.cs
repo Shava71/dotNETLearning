@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<RouteOptions>(options => options.ConstraintMap.Add("secretcode", typeof(SecretCodeConstraint)));
+builder.Services.Configure<RouteOptions>(options => options.ConstraintMap.Add("invalidNames", typeof(SecretCodeConstraint)));
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -29,14 +29,14 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Map("/users/{name}/{token:secretcode(123466)}/", (string name, int token) => $"Name: {name} \nToken: {token}");
+app.Map("/users/{name::invalidNames}", (string name) => $"Name: {name} ");
 //app.Map("/", () => "Index page");
 
 app.Run();
 
-public class SecretCodeConstraint(string secretCode) : IRouteConstraint
+public class SecretCodeConstraint : IRouteConstraint
 {
-    private readonly string secretCode = secretCode;
+    private string[] Names = new[] { "Tom", "Michael" };
 
     public bool Match(HttpContext? httpContext,
         IRouter? route,
@@ -44,6 +44,6 @@ public class SecretCodeConstraint(string secretCode) : IRouteConstraint
         RouteValueDictionary values,
         RouteDirection routeDirection)
     {
-        return values[routeKey]?.ToString() == secretCode;
+        return !Names.Contains(values[routeKey]?.ToString());
     }
 }
