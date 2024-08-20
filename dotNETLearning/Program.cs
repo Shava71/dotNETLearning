@@ -3,6 +3,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,10 +29,14 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
 
+    RequestPath = new PathString("/pages")
+});
 app.UseStaticFiles();
 
-app.MapGet("/", () => "Hello METANIT.COM");
 
 app.Run();
 
