@@ -29,7 +29,7 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 
-app.MapGet("/user", (string name, int? age) => $"Name: {name} Age: {age??25}");
+app.UseStaticFiles();
 
 app.MapGet("/", () => "Hello METANIT.COM");
 
