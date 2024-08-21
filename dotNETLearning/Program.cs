@@ -7,6 +7,12 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
+{
+    {"name", "Tom"},
+    {"age", "26"}
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -29,14 +35,16 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.UseDirectoryBrowser(new DirectoryBrowserOptions()
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
 
-    RequestPath = new PathString("/pages")
-});
-app.UseStaticFiles();
+//app.Run(async (context) =>
+//{
+//    string name = app.Configuration["name"];
+//    string age = app.Configuration["age"];
 
+//    await context.Response.WriteAsync($"{name}  ---  {age}");
+
+//});
+app.Map("/Conf", (IConfiguration appConfig)=>$"{appConfig["name"]} --- {appConfig["age"]}");
 
 app.Run();
 
