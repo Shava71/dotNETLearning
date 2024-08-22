@@ -7,16 +7,20 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
-{
-    {"name", "Tom"},
-    {"age", "26"}
-});
+//builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
+//{
+//    {"name", "Tom"},
+//    {"age", "26"}
+//});
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+//builder.Configuration.AddJsonFile("config.json");
+builder.Configuration.AddXmlFile("config2.xml");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,7 +48,7 @@ app.MapRazorPages();
 //    await context.Response.WriteAsync($"{name}  ---  {age}");
 
 //});
-app.Map("/Conf", (IConfiguration appConfig)=>$"{appConfig["name"]} --- {appConfig["age"]}");
+app.Map("/Conf", (IConfiguration appConfig)=>$"{appConfig["person"]} --- {appConfig["company"]}");
 
 app.Run();
 

@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
