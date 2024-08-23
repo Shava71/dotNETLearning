@@ -20,8 +20,13 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 //builder.Configuration.AddJsonFile("project.json");
+builder.Configuration.AddJsonFile("config.json");
+var Tomas = new Person();
+builder.Configuration.Bind(Tomas);
+//var Tom = new Person();
+//builder.Configuration.Bind(Tom);
 //builder.Configuration.AddXmlFile("config2.xml");
-builder.Configuration.AddTextFile("config3.txt");
+//builder.Configuration.AddTextFile("config3.txt");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -50,8 +55,23 @@ app.MapRazorPages();
 
 //});
 //app.Map("/Conf", (IConfiguration appConfig)=>GetSectionContent(appConfig.GetSection("projectConfig")));
-app.Map("/conf", (IConfiguration appConfig)=> $"{appConfig["name"]} {appConfig["age"]}");
+//app.Map("/conf", (IConfiguration appConfig)=> $"{appConfig["name"]} {appConfig["age"]}");
+//app.Run(async (context)=>context.Response.WriteAsync($"{Tom.Name + Tom.Age}"));
+app.Run(async (context) =>
+{
+    context.Response.ContentType = "text/html; charset=utf-8";
+    string name = $"<p>Name: {Tomas.Name}</p>";
+    string age = $"<p>Age: {Tomas.Age}</p>";
+    string company = $"<p>Name: {Tomas.company?.Title}</p>";
+    string langs = "<p>Languages:</p><ul>";
+    foreach (var lang in Tomas.languages)
+    {
+        langs += $"<li><p>{lang}</p></li>";
+    }
 
+    langs += "</ul>";
+    await context.Response.WriteAsync($"{name}{age}{company}{langs}");
+});
 app.Run();
 
 //string GetSectionContent(IConfigurationSection configSection)
@@ -73,56 +93,73 @@ app.Run();
 //    return contentBuilder.ToString();
 //}
 
-public class TextConfigurationProvider (string FilePath) : ConfigurationProvider
+
+
+
+//public class TextConfigurationProvider (string FilePath) : ConfigurationProvider
+//{
+//    public string FilePath { get; set; } = FilePath;
+
+//    public override void Load()
+//    {
+//        var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+//        using (StreamReader TextReader = new StreamReader(FilePath))
+//        {
+//            string? line;
+//            while ((line = TextReader.ReadLine()) != null)
+//            {
+//                string key = line.Trim();
+//                string? value = TextReader.ReadLine() ?? "";
+//                data.Add(key, value);
+
+//            }
+//        }
+
+//        Data = data;
+//    }
+//}
+
+//public class TextConfigurationSource(string FileName) : IConfigurationSource
+//{
+//    public string FileName { get; } = FileName;
+
+//    public IConfigurationProvider Build(IConfigurationBuilder builder)
+//    {
+//        string filePath = builder.GetFileProvider().GetFileInfo(FileName).PhysicalPath;
+//        return new TextConfigurationProvider(filePath);
+//    }
+//}
+
+//public static class TextConfigurationExtentions
+//{
+//    public static IConfigurationBuilder AddTextFile(this IConfigurationBuilder builder, string path)
+//    {
+//        if (builder == null)
+//        {
+//            throw new ArgumentNullException(nameof(builder));;
+//        }
+
+//        if (string.IsNullOrWhiteSpace(path))
+//        {
+//            throw new AggregateException("No file path");
+//        }
+
+//        var source = new TextConfigurationSource(path);
+//        builder.Add(source);
+//        return builder;
+//    }
+//}
+
+class Person
 {
-    public string FilePath { get; set; } = FilePath;
-
-    public override void Load()
-    {
-        var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        using (StreamReader TextReader = new StreamReader(FilePath))
-        {
-            string? line;
-            while ((line = TextReader.ReadLine()) != null)
-            {
-                string key = line.Trim();
-                string? value = TextReader.ReadLine() ?? "";
-                data.Add(key, value);
-
-            }
-        }
-
-        Data = data;
-    }
+    public string Name { get; set; } = "";
+    public int Age { get; set; } = 0;
+    public List<string> languages { get; set; } = new();
+    public Company? company { get; set; } = null;
 }
 
-public class TextConfigurationSource(string FileName) : IConfigurationSource
+public class Company
 {
-    public string FileName { get; } = FileName;
-
-    public IConfigurationProvider Build(IConfigurationBuilder builder)
-    {
-        string filePath = builder.GetFileProvider().GetFileInfo(FileName).PhysicalPath;
-        return new TextConfigurationProvider(filePath);
-    }
-}
-
-public static class TextConfigurationExtentions
-{
-    public static IConfigurationBuilder AddTextFile(this IConfigurationBuilder builder, string path)
-    {
-        if (builder == null)
-        {
-            throw new ArgumentNullException(nameof(builder));;
-        }
-
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            throw new AggregateException("No file path");
-        }
-
-        var source = new TextConfigurationSource(path);
-        builder.Add(source);
-        return builder;
-    }
+    public string Title { get; set; } = "";
+    public string Country { get; set; } = string.Empty;
 }

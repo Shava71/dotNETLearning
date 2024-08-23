@@ -1,6 +1,13 @@
 {
-  "ConnectionString": {
-    "DefaultConnection": "Main Database",
-    "UserContext": "Users Database"
+  "name": "Tomas",
+  "age": "25",
+  "languages": [
+    "English",
+    "Russian",
+    "German"
+  ],
+  "Company": {
+    "title": "Apple",
+    "country": "USA"
   }
 }
