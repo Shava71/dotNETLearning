@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +18,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Configuration.AddJsonFile("config.json");
+builder.Services.Configure<Person>(builder.Configuration);
+
 var app = builder.Build();
 
+app.UseMiddleware< PersonMiddleware>();
+
 //builder.Configuration.AddJsonFile("project.json");
-builder.Configuration.AddJsonFile("config.json");
-var Tomas = new Person();
-builder.Configuration.Bind(Tomas);
+
 //var Tom = new Person();
 //builder.Configuration.Bind(Tom);
 //builder.Configuration.AddXmlFile("config2.xml");
@@ -57,21 +61,30 @@ app.MapRazorPages();
 //app.Map("/Conf", (IConfiguration appConfig)=>GetSectionContent(appConfig.GetSection("projectConfig")));
 //app.Map("/conf", (IConfiguration appConfig)=> $"{appConfig["name"]} {appConfig["age"]}");
 //app.Run(async (context)=>context.Response.WriteAsync($"{Tom.Name + Tom.Age}"));
-app.Run(async (context) =>
-{
-    context.Response.ContentType = "text/html; charset=utf-8";
-    string name = $"<p>Name: {Tomas.Name}</p>";
-    string age = $"<p>Age: {Tomas.Age}</p>";
-    string company = $"<p>Name: {Tomas.company?.Title}</p>";
-    string langs = "<p>Languages:</p><ul>";
-    foreach (var lang in Tomas.languages)
-    {
-        langs += $"<li><p>{lang}</p></li>";
-    }
 
-    langs += "</ul>";
-    await context.Response.WriteAsync($"{name}{age}{company}{langs}");
+
+//app.Run(async (context) =>
+//{
+//    context.Response.ContentType = "text/html; charset=utf-8";
+//    string name = $"<p>Name: {Tomas.Name}</p>";
+//    string age = $"<p>Age: {Tomas.Age}</p>";
+//    string company = $"<p>Name: {Tomas.company?.Title}</p>";
+//    string langs = "<p>Languages:</p><ul>";
+//    foreach (var lang in Tomas.languages)
+//    {
+//        langs += $"<li><p>{lang}</p></li>";
+//    }
+
+//    langs += "</ul>";
+//    await context.Response.WriteAsync($"{name}{age}{company}{langs}");
+//});
+
+app.Map("/conf", (IOptions<Person> options) =>
+{
+    Person person = options.Value;
+    return person;
 });
+
 app.Run();
 
 //string GetSectionContent(IConfigurationSection configSection)
@@ -150,16 +163,37 @@ app.Run();
 //    }
 //}
 
-class Person
+public class Person
 {
     public string Name { get; set; } = "";
     public int Age { get; set; } = 0;
-    public List<string> languages { get; set; } = new();
-    public Company? company { get; set; } = null;
+    public List<string> Languages { get; set; } = new();
+    public Company? Company { get; set; } = null;
 }
 
 public class Company
 {
     public string Title { get; set; } = "";
     public string Country { get; set; } = string.Empty;
+}
+
+public class PersonMiddleware(RequestDelegate _next, IOptions<Person> options)
+{
+    private readonly RequestDelegate _next = _next;
+    public Person Person { get; } = options.Value;
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        System.Text.StringBuilder stringBuilder = new();
+        stringBuilder.Append($"<p>Name: {Person.Name}</p>");
+        stringBuilder.Append($"<p>Age: {Person.Age}</p>");
+        stringBuilder.Append($"<p>Company: {Person.Company?.Title}</p>");
+        stringBuilder.Append("<h3>Languages</h3><ul>");
+        foreach (string lang in Person.Languages)
+            stringBuilder.Append($"<li>{lang}</li>");
+        stringBuilder.Append("</ul>");
+
+        await context.Response.WriteAsync(stringBuilder.ToString());
+    }
+
 }
