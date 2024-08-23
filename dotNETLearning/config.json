@@ -1,4 +1,6 @@
 {
-  "person": { "profile": {"name": "Tom", "email": "gwghh@gmail.com" } },
-  "Company": { "name": "Apple" }
+  "ConnectionString": {
+    "DefaultConnection": "Main Database",
+    "UserContext": "Users Database"
+  }
 }

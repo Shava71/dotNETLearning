@@ -19,8 +19,8 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-//builder.Configuration.AddJsonFile("config.json");
-builder.Configuration.AddXmlFile("config2.xml");
+builder.Configuration.AddJsonFile("project.json");
+//builder.Configuration.AddXmlFile("config2.xml");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -48,7 +48,27 @@ app.MapRazorPages();
 //    await context.Response.WriteAsync($"{name}  ---  {age}");
 
 //});
-app.Map("/Conf", (IConfiguration appConfig)=>$"{appConfig["person"]} --- {appConfig["company"]}");
+app.Map("/Conf", (IConfiguration appConfig)=>GetSectionContent(appConfig.GetSection("projectConfig")));
+
 
 app.Run();
+
+string GetSectionContent(IConfigurationSection configSection)
+{
+    System.Text.StringBuilder contentBuilder = new();
+    foreach (var section in configSection.GetChildren())
+    {
+        contentBuilder.Append($"\"{section.Key}\":");
+        if (section.Value == null)
+        {
+            string subSectionContent = GetSectionContent(section);
+            contentBuilder.Append($"{{\n{subSectionContent}}},\n");
+        }
+        else
+        {
+            contentBuilder.Append($"\"{section.Value}\",\n");
+        }
+    }
+    return contentBuilder.ToString();
+}
 
