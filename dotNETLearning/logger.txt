@@ -1,0 +1,6 @@
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: /conf and Time: 25.08.2024 0:00:00
