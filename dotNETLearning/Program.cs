@@ -15,6 +15,13 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 
+
+//ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+//ILogger logger = loggerFactory.CreateLogger<Program>();
+
+
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -32,10 +39,21 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.Map("/conf", (ILogger<Program> logger) =>
-{
-    logger.LogInformation($"Path time: {DateTime.Now.ToLongTimeString()}");
+//app.Map("/conf", (ILogger<Program> logger) =>
+//{
+//    logger.LogInformation($"Path time: {DateTime.Now.ToLongTimeString()}");
     
+//});
+//app.Run(async (context) =>
+//{
+//    logger.LogInformation($"Path: {context.Request.Path}");
+//    await context.Response.WriteAsync("Hello :3");
+//});
+app.Map("/conf", (ILoggerFactory LoggerFactory) =>
+{
+    ILogger logger = LoggerFactory.CreateLogger("MapLogger");
+    logger.LogInformation($"Path's time: {DateTime.Now.Kind}");
+    return "Hello";
 });
 
 app.Run();
