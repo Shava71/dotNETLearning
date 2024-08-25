@@ -37,27 +37,41 @@ app.MapRazorPages();
 
 app.Use(async (context, next) =>
 {
-    app.Logger.LogInformation($"Path: {context.Request.Path} and Time: {DateTime.Now.Date}");
+    app.Logger.LogInformation($"Path: {context.Request.Path} and Time: {DateTime.Now.ToLongTimeString()}");
     await next.Invoke(context);
 });
 
-app.Use(async (context, next) =>
-{
-    context.Items.Add("message", "Hello world");
-    await next.Invoke(context);
+//app.Use(async (context, next) =>
+//{
+//    context.Items.Add("message", "Hello world");
+//    await next.Invoke(context);
 
-});
+//});
+
+//app.Run(async (context) =>
+//{
+//    if(context.Items.ContainsKey("messages"))
+//    {
+//        await context.Response.WriteAsync("Hello is real"); 
+//        app.Logger.LogInformation($"Message: {context.Items["message"]}");
+//    }
+//    else
+//    {
+//        await context.Response.WriteAsync("no hello :(");
+//    }
+//});
 
 app.Run(async (context) =>
 {
-    if(context.Items.ContainsKey("messages"))
+    if (context.Request.Cookies.ContainsKey("name"))
     {
-        await context.Response.WriteAsync("Hello is real"); 
-        app.Logger.LogInformation($"Message: {context.Items["message"]}");
+        context.Response.WriteAsync($"Hello {context.Request.Cookies["name"]}");
     }
     else
     {
-        await context.Response.WriteAsync("no hello :(");
+        context.Response.Cookies.Append("name", "Tomas");
+        context.Response.WriteAsync("Hello World");
+
     }
 });
 
