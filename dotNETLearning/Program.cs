@@ -12,14 +12,13 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-builder.Services.AddMemoryCache();
-builder.Services.AddSession();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-app.UseSession();
+app.Environment.EnvironmentName = "Production";
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,40 +43,23 @@ app.Use(async (context, next) =>
     await next.Invoke(context);
 });
 
-//app.Use(async (context, next) =>
-//{
-//    context.Items.Add("message", "Hello world");
-//    await next.Invoke(context);
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
+}
 
-//});
-
-//app.Run(async (context) =>
-//{
-//    if(context.Items.ContainsKey("messages"))
-//    {
-//        await context.Response.WriteAsync("Hello is real"); 
-//        app.Logger.LogInformation($"Message: {context.Items["message"]}");
-//    }
-//    else
-//    {
-//        await context.Response.WriteAsync("no hello :(");
-//    }
-//});
+app.Map("/error", app => app.Run(async (context) =>
+{
+    context.Response.StatusCode = 500;
+    await context.Response.WriteAsync("Error 500. DivideByZeroException occured!");
+}));
 
 app.Run(async (context) =>
 {
-    if (context.Session.Keys.Contains("person"))
-    {
-        Person? person = context.Session.Get<Person>("person");
-        await context.Response.WriteAsync($"Hello {person?.Name}, age: {person?.Age}");
-    }
-    else
-    {
-        Person person = new Person { Name = "Tomas", Age = 25 };
-        context.Session.Set<Person>("person", person);
-        await context.Response.WriteAsync("Hello World!");
-
-    }
+    int a = 5;
+    int b = 0;
+    int c = a/b;
+    await context.Response.WriteAsync($"c = {c}");
 });
 
 app.Run();
