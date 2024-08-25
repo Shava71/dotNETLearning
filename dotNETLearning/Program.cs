@@ -12,11 +12,14 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -63,14 +66,16 @@ app.Use(async (context, next) =>
 
 app.Run(async (context) =>
 {
-    if (context.Request.Cookies.ContainsKey("name"))
+    if (context.Session.Keys.Contains("person"))
     {
-        context.Response.WriteAsync($"Hello {context.Request.Cookies["name"]}");
+        Person? person = context.Session.Get<Person>("person");
+        await context.Response.WriteAsync($"Hello {person?.Name}, age: {person?.Age}");
     }
     else
     {
-        context.Response.Cookies.Append("name", "Tomas");
-        context.Response.WriteAsync("Hello World");
+        Person person = new Person { Name = "Tomas", Age = 25 };
+        context.Session.Set<Person>("person", person);
+        await context.Response.WriteAsync("Hello World!");
 
     }
 });

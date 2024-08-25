@@ -31,3 +31,93 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
 Path: / and Time: 25.08.2024 0:00:00
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 14:33:07
+Path: / and Time: 14:33:08
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 14:33:36
+Path: / and Time: 14:33:37
+Path: / and Time: 14:33:37
+Path: / and Time: 14:33:38
+Path: / and Time: 14:33:38
+Path: / and Time: 14:33:38
+Path: / and Time: 14:33:38
+Path: / and Time: 14:33:39
+Path: / and Time: 14:33:39
+Path: / and Time: 14:33:39
+Path: / and Time: 14:33:39
+Path: / and Time: 14:33:39
+Path: / and Time: 14:33:40
+Path: / and Time: 14:33:40
+Path: /conf and Time: 14:36:31
+Path: /conf and Time: 14:36:32
+Path: /conf and Time: 14:36:32
+Path: /conf and Time: 14:36:33
+Path: /conf and Time: 14:36:33
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 14:42:16
+Path: / and Time: 14:42:19
+Path: / and Time: 14:42:36
+Path: / and Time: 14:42:39
+Path: / and Time: 14:42:39
+Path: / and Time: 14:42:39
+Path: / and Time: 14:42:40
+Path: / and Time: 14:42:41
+Path: / and Time: 14:42:41
+Path: / and Time: 14:42:42
+Path: / and Time: 14:42:42
+Path: / and Time: 14:42:43
+Path: / and Time: 14:42:44
+Path: / and Time: 14:42:44
+Path: / and Time: 14:42:45
+Path: / and Time: 14:42:45
+Path: / and Time: 14:42:46
+Path: / and Time: 14:42:47
+Path: / and Time: 14:42:48
+Path: / and Time: 14:42:48
+Path: / and Time: 14:42:49
+Path: / and Time: 14:42:50
+Path: / and Time: 14:42:50
+Path: / and Time: 14:42:51
+Path: / and Time: 14:42:51
+Path: / and Time: 14:42:52
+Path: / and Time: 14:42:53
+Path: / and Time: 14:42:54
+Path: / and Time: 14:42:54
+Path: / and Time: 14:42:55
+Path: / and Time: 14:42:56
+Path: / and Time: 14:42:58
+Path: / and Time: 14:43:02
+Path: / and Time: 14:43:04
+Path: / and Time: 14:43:08
+Path: / and Time: 14:43:25
+Path: / and Time: 14:43:27
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 15:12:56
+Path: / and Time: 15:12:58
