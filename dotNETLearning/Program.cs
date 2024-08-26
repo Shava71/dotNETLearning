@@ -18,7 +18,6 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-app.Environment.EnvironmentName = "Production";
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -48,19 +47,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
-app.Map("/error", app => app.Run(async (context) =>
-{
-    context.Response.StatusCode = 500;
-    await context.Response.WriteAsync("Error 500. DivideByZeroException occured!");
-}));
+app.Map("/youtube", () =>
 
-app.Run(async (context) =>
-{
-    int a = 5;
-    int b = 0;
-    int c = a/b;
-    await context.Response.WriteAsync($"c = {c}");
-});
+    Results.Redirect("https://www.youtube.com/")
+);
 
 app.Run();
 

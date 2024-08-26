@@ -128,3 +128,26 @@ Hosting environment: Development
 Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
 Path: / and Time: 19:14:40
 An unhandled exception has occurred while executing the request.
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 22:02:32
+Path: / and Time: 22:02:33
+Path: /youtube and Time: 22:02:37
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 22:02:56
+Path: /youtube and Time: 22:03:05
+Path: /youtube and Time: 22:03:06
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 22:03:21
+Path: /youtube and Time: 22:03:22
