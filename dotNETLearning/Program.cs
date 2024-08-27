@@ -8,6 +8,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
+List<Person> persons = new List<Person>()
+{
+    new() { Id = Guid.NewGuid().ToString(), Name = "Tom", Age = 24},
+    new() { Id = Guid.NewGuid().ToString(), Name = "Tomik", Age = 24},
+    new() { Id = Guid.NewGuid().ToString(), Name = "Tomas", Age = 53}
+};
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +24,8 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -42,15 +50,37 @@ app.Use(async (context, next) =>
     await next.Invoke(context);
 });
 
-if (!app.Environment.IsDevelopment())
+app.MapGet("/users", () => persons);
+app.MapGet("/users/{id}", (string id) =>
 {
-    app.UseExceptionHandler("/error");
-}
+    Person? person = persons.FirstOrDefault(x => x.Id == id);
+    if (person == null) return Results.NotFound(new{message = "User's not found"});
+    return Results.Json(person);
+});
 
-app.Map("/youtube", () =>
+app.MapDelete("/users/{id}", (string id) =>
+{
+    Person? person = persons.FirstOrDefault(x => x.Id == id);
+    if (person == null) return Results.NotFound(new { message = "User's not found" });
+    persons.Remove(person);
+    return Results.Json(person);
+});
 
-    Results.Redirect("https://www.youtube.com/")
-);
+app.MapPost("/users", (Person person) =>
+{
+    person.Id = Guid.NewGuid().ToString();
+    persons.Add(person);  
+    return person;
+});
+
+app.MapPut("/users", (Person personData) =>
+{
+    var person = persons.FirstOrDefault(x => x.Id == personData.Id);
+    if (person == null) return Results.NotFound(new { message = "User's not found" });
+    person.Name = personData.Name;
+    person.Age = personData.Age;
+    return Results.Json(person);
+});
 
 app.Run();
 

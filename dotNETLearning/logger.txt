@@ -151,3 +151,74 @@ Hosting environment: Development
 Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
 Path: / and Time: 22:03:21
 Path: /youtube and Time: 22:03:22
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 23:02:42
+Path: /youtube and Time: 23:02:51
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: /youtube and Time: 2:19:48
+Path: / and Time: 2:19:48
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 2:21:02
+Path: /test and Time: 2:21:04
+Path: /test and Time: 2:21:09
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 20:46:50
+Path: /users and Time: 20:46:50
+Path: /users and Time: 20:46:55
+Path: /users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:01
+Path: /users and Time: 20:47:04
+Path: /users/9308a57e-954f-4c90-b147-431cdc4f2820 and Time: 20:47:06
+Path: /users and Time: 20:47:08
+Path: /users and Time: 20:47:14
+Path: / and Time: 20:47:17
+Path: /users and Time: 20:47:17
+Path: / and Time: 20:47:18
+Path: /users and Time: 20:47:18
+Path: / and Time: 20:47:18
+Path: /users and Time: 20:47:18
+Path: / and Time: 20:47:18
+Path: /users and Time: 20:47:19
+Path: / and Time: 20:47:19
+Path: /users and Time: 20:47:19
+Path: / and Time: 20:47:19
+Path: /users and Time: 20:47:20
+Path: /s/users/5580abc4-2237-4db3-b7d2-3c288c30ddd0 and Time: 20:47:21
+Path: /s/users/958ef5a0-b58d-4090-9617-51b8dbe9adea and Time: 20:47:22
+Path: /s/users/958ef5a0-b58d-4090-9617-51b8dbe9adea and Time: 20:47:22
+Path: /s/users/958ef5a0-b58d-4090-9617-51b8dbe9adea and Time: 20:47:23
+Path: /s/users/958ef5a0-b58d-4090-9617-51b8dbe9adea and Time: 20:47:23
+Path: /s/users/9308a57e-954f-4c90-b147-431cdc4f2820 and Time: 20:47:23
+Path: /s/users/9308a57e-954f-4c90-b147-431cdc4f2820 and Time: 20:47:23
+Path: /s/users/9308a57e-954f-4c90-b147-431cdc4f2820 and Time: 20:47:23
+Path: /s/users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:24
+Path: / and Time: 20:47:24
+Path: /users and Time: 20:47:24
+Path: /s/users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:25
+Path: /s/users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:25
+Path: /s/users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:25
+Path: /s/users/f4fff037-4399-401e-89ec-4c7a9544b61f and Time: 20:47:25
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 20:47:37
+Path: /users and Time: 20:47:37
+Path: /users/637bf99c-611e-4d39-afed-5e45461d9601 and Time: 20:47:38
+Path: /users/5548e478-433d-48fc-a9f9-87703f0e11c7 and Time: 20:47:38
