@@ -4,181 +4,85 @@
     ViewData["Title"] = "Home page";
 }
 
-<head>
-    <meta charset="utf-8" />
-    <title>METANIT.COM</title>
-    <style>
-        td {padding:5px;}
-        button{margin: 5px;}
-    </style>
-</head>
 <body>
-    <h2>Список пользователей</h2>
-    <div>
-        <input type="hidden" id="userId" />
-        <p>
-            Имя:<br />
-            <input id="userName" />
-        </p>
-        <p>
-            Возраст:<br />
-            <input id="userAge" type="number" />
-        </p>
-        <p>
-            <button id="saveBtn">Сохранить</button>
-            <button id="resetBtn">Сбросить</button>
-        </p>
+    <div id="userInfo" style="display:none;">
+        <p>Добро пожаловать <span id="userName"></span>!</p>
+        <input type="button" value="Выйти" id="logOut" />
     </div>
-    <table>
-        <thead><tr><th>Имя</th><th>Возраст</th><th></th></tr></thead>
-        <tbody>
-        </tbody>
-    </table>
-
+    <div id="loginForm">
+        <h3>Вход на сайт</h3>
+        <p>
+            <label>Введите email</label><br />
+            <input type="email" id="email" />
+        </p>
+        <p>
+            <label>Введите пароль</label><br />
+            <input type="password" id="password" />
+        </p>
+        <input type="submit" id="submitLogin" value="Логин" />
+    </div>
+    <p>
+        <input type="submit" id="getData" value="Получить данные" />
+    </p>
     <script>
-        // Получение всех пользователей
-            async function getUsers() {
-                // отправляет запрос и получаем ответ
-                const response = await fetch("/users", {
-                    method: "GET",
-                    headers: { "Accept": "application/json" }
-                });
-                // если запрос прошел нормально
-                if (response.ok === true) {
-                    // получаем данные
-                    const users = await response.json();
-                    const rows = document.querySelector("tbody");
-                    // добавляем полученные элементы в таблицу
-                    users.forEach(user => rows.append(row(user)));
-                }
+        var tokenKey = "accessToken";
+        // при нажатии на кнопку отправки формы идет запрос к /login для получения токена
+        document.getElementById("submitLogin").addEventListener("click", async e => {
+            e.preventDefault();
+            // отправляет запрос и получаем ответ
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: document.getElementById("email").value,
+                    password: document.getElementById("password").value
+                })
+            });
+            // если запрос прошел нормально
+            if (response.ok === true) {
+                // получаем данные
+                const data = await response.json();
+                // изменяем содержимое и видимость блоков на странице
+                document.getElementById("userName").innerText = data.username;
+                document.getElementById("userInfo").style.display = "block";
+                document.getElementById("loginForm").style.display = "none";
+                // сохраняем в хранилище sessionStorage токен доступа
+                sessionStorage.setItem(tokenKey, data.access_token);
             }
-            // Получение одного пользователя
-            async function getUser(id) {
-                const response = await fetch(`/users/${id}`, {
-                    method: "GET",
-                    headers: { "Accept": "application/json" }
-                });
-                if (response.ok === true) {
-                    const user = await response.json();
-                    document.getElementById("userId").value = user.id;
-                    document.getElementById("userName").value = user.name;
-                    document.getElementById("userAge").value = user.age;
+            else  // если произошла ошибка, получаем код статуса
+                console.log("Status: ", response.status);
+        });
+
+        // кнопка для обращения по пути "/data" для получения данных
+        document.getElementById("getData").addEventListener("click", async e => {
+            e.preventDefault();
+            // получаем токен из sessionStorage
+            const token = sessionStorage.getItem(tokenKey);
+            // отправляем запрос к "/data
+            const response = await fetch("/data", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token  // передача токена в заголовке
                 }
-                else {
-                    // если произошла ошибка, получаем сообщение об ошибке
-                    const error = await response.json();
-                    console.log(error.message); // и выводим его на консоль
-                }
-            }
-            // Добавление пользователя
-            async function createUser(userName, userAge) {
-
-                const response = await fetch("/users", {
-                    method: "POST",
-                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        name: userName,
-                        age: parseInt(userAge, 10)
-                    })
-                });
-                if (response.ok === true) {
-                    const user = await response.json();
-                    document.querySelector("tbody").append(row(user));
-                }
-                else {
-                    const error = await response.json();
-                    console.log(error.message);
-                }
-            }
-            // Изменение пользователя
-            async function editUser(userId, userName, userAge) {
-                const response = await fetch("/users", {
-                    method: "PUT",
-                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        id: userId,
-                        name: userName,
-                        age: parseInt(userAge, 10)
-                    })
-                });
-                if (response.ok === true) {
-                    const user = await response.json();
-                    document.querySelector(`tr[data-rowid='${user.id}']`).replaceWith(row(user));
-                }
-                else {
-                    const error = await response.json();
-                    console.log(error.message);
-                }
-            }
-            // Удаление пользователя
-            async function deleteUser(id) {
-                const response = await fetch(`/users/${id}`, {
-                    method: "DELETE",
-                    headers: { "Accept": "application/json" }
-                });
-                if (response.ok === true) {
-                    const user = await response.json();
-                    document.querySelector(`tr[data-rowid='${user.id}']`).remove();
-                }
-                else {
-                    const error = await response.json();
-                    console.log(error.message);
-                }
-            }
-
-            // сброс данных формы после отправки
-            function reset() {
-                document.getElementById("userId").value =
-                document.getElementById("userName").value =
-                document.getElementById("userAge").value = "";
-            }
-            // создание строки для таблицы
-            function row(user) {
-
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-rowid", user.id);
-
-                const nameTd = document.createElement("td");
-                nameTd.append(user.name);
-                tr.append(nameTd);
-
-                const ageTd = document.createElement("td");
-                ageTd.append(user.age);
-                tr.append(ageTd);
-
-                const linksTd = document.createElement("td");
-
-                const editLink = document.createElement("button");
-                editLink.append("Изменить");
-                editLink.addEventListener("click", async() => await getUser(user.id));
-                linksTd.append(editLink);
-
-                const removeLink = document.createElement("button");
-                removeLink.append("Удалить");
-                removeLink.addEventListener("click", async () => await deleteUser(user.id));
-
-                linksTd.append(removeLink);
-                tr.appendChild(linksTd);
-
-                return tr;
-            }
-            // сброс значений формы
-            document.getElementById("resetBtn").addEventListener("click", () =>  reset());
-
-            // отправка формы
-            document.getElementById("saveBtn").addEventListener("click", async () => {
-
-                const id = document.getElementById("userId").value;
-                const name = document.getElementById("userName").value;
-                const age = document.getElementById("userAge").value;
-                if (id === "")
-                    await createUser(name, age);
-                else
-                    await editUser(id, name, age);
-                reset();
             });
 
-            // загрузка пользователей
-            getUsers();
+            if (response.ok === true) {
+                const data = await response.json();
+                alert(data.message);
+            }
+            else
+                console.log("Status: ", response.status);
+        });
+
+        // условный выход - просто удаляем токен и меняем видимость блоков
+        document.getElementById("logOut").addEventListener("click", e => {
+
+            e.preventDefault();
+            document.getElementById("userName").innerText = "";
+            document.getElementById("userInfo").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            sessionStorage.removeItem(tokenKey);
+        });
     </script>
 </body>
