@@ -16,6 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var people = new List<Person>
 {
@@ -26,26 +28,7 @@ var people = new List<Person>
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        // указывает, будет ли валидироваться издатель при валидации токена
-        ValidateIssuer = true,
-        // строка, представляющая издателя
-        ValidIssuer = AuthOptions.ISSUER,
-        // будет ли валидироваться потребитель токена
-        ValidateAudience = true,
-        // установка потребителя токена
-        ValidAudience = AuthOptions.AUDIENCE,
-        // будет ли валидироваться время существования
-        ValidateLifetime = true,
-        // установка ключа безопасности
-        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-        // валидация ключа безопасности
-        ValidateIssuerSigningKey = true,
-    };
-});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/login");
 
 
 builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
@@ -82,29 +65,59 @@ app.Use(async (context, next) =>
     await next.Invoke(context);
 });
 
-app.MapPost("/login", (Person LoginData) =>
+app.MapGet("/login", async (HttpContext context) =>
 {
-    Person? person = people.FirstOrDefault(p => p.email == LoginData.email && p.password == LoginData.password);
+    context.Response.ContentType = "text/html; charset=utf-8";
+    string loginForm = @"<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8' />
+        <title>METANIT.COM</title>
+    </head>
+    <body>
+        <h2>Login Form</h2>
+        <form method='post'>
+            <p>
+                <label>Email</label><br />
+                <input name='email' />
+            </p>
+            <p>
+                <label>Password</label><br />
+                <input type='password' name='password' />
+            </p>
+            <input type='submit' value='Login' />
+        </form>
+    </body>
+    </html>";
+    await context.Response.WriteAsync(loginForm);
+});
+
+app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
+{
+    returnUrl = "/data";
+
+    var form = context.Request.Form;
+    if (!form.ContainsKey("email") || !form.ContainsKey("password"))
+        return Results.BadRequest("Email и/или пароль не установлены");
+
+    var email = form["email"];
+    var password = form["password"];
+
+    Person? person = people.FirstOrDefault(p => p.email == email && p.password == password);
     if (person is null) return Results.Unauthorized();
 
     var claims = new List<Claim> { new Claim(ClaimTypes.Name, person.email) };
 
-    var jwt = new JwtSecurityToken(
-        issuer: AuthOptions.ISSUER,
-        audience: AuthOptions.AUDIENCE,
-        claims: claims,
-        expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-        );
-    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
 
-    var response = new
-    {
-        access_token = encodedJwt,
-        username = person.email
-    };
+    await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+    return Results.Redirect(returnUrl ?? "/");
+});
 
-    return Results.Json(response);
+app.MapGet("/logout", async (HttpContext context) =>
+{
+    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    return Results.Redirect("/login");  
 });
 
 app.Map("/data", [Authorize]() => new {Message = "Hello World"});
@@ -113,11 +126,3 @@ app.Map("/data", [Authorize]() => new {Message = "Hello World"});
 app.Run();
 
 
-public class AuthOptions
-{
-    public const string ISSUER = "MyAuthServer"; // издатель токена
-    public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-    const string KEY = "mysupersecret_secretsecretsecretkey!123";   // ключ для шифрации
-    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}

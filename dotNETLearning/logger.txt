@@ -426,3 +426,36 @@ Path: / and Time: 12:03:51
 Path: /login and Time: 12:03:55
 Path: /login and Time: 12:04:37
 Path: /data and Time: 12:04:40
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 14:32:38
+Path: /login and Time: 14:32:42
+An unhandled exception has occurred while executing the request.
+Path: /login and Time: 14:32:43
+An unhandled exception has occurred while executing the request.
+Path: /login and Time: 14:32:43
+An unhandled exception has occurred while executing the request.
+Path: /login and Time: 14:32:51
+An unhandled exception has occurred while executing the request.
+Path: /login and Time: 14:32:52
+An unhandled exception has occurred while executing the request.
+Path: /login and Time: 14:33:14
+Path: /login and Time: 14:33:28
+Path: / and Time: 14:33:28
+Path: /data and Time: 14:33:34
+Path: /data and Time: 14:33:39
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\demde\Desktop\dotNETLearning\dotNETLearning
+Path: /data and Time: 14:44:15
+Path: /login and Time: 14:44:18
+Path: /login and Time: 14:44:24
+Path: /data and Time: 14:44:24
+Path: /logout and Time: 14:44:31
+Path: /login and Time: 14:44:31
+Path: /login and Time: 14:45:40
