@@ -459,3 +459,125 @@ Path: /data and Time: 14:44:24
 Path: /logout and Time: 14:44:31
 Path: /login and Time: 14:44:31
 Path: /login and Time: 14:45:40
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 22:48:29
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 22:50:32
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 10:20:06
+Path: /login/Bob and Time: 10:20:24
+Path: /r and Time: 10:20:40
+Path: /logout and Time: 10:20:46
+Path: /r and Time: 10:20:54
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 10:42:09
+Path: /login/Bob and Time: 10:42:21
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /login/Bob and Time: 10:43:14
+An unhandled exception has occurred while executing the request.
+Path: /login/Bob/+79539514221/Google and Time: 10:43:31
+Path: /data and Time: 10:43:32
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 1:33:59
+Path: /data and Time: 1:34:10
+Path: /logout and Time: 1:34:21
+Path: /login/Tomas/+79539514221/Google and Time: 1:34:42
+Path: /data and Time: 1:34:42
+Path: /addage and Time: 1:34:55
+Path: /addage/20 and Time: 1:35:16
+Path: /data and Time: 1:35:16
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /data and Time: 1:37:15
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /data and Time: 1:38:51
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 1:41:20
+Path: /data and Time: 1:41:26
+Path: /removephone and Time: 1:41:41
+Path: /data and Time: 1:41:42
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 1:55:33
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 1:55:39
+Path: /data and Time: 1:56:38
+Path: /login/Tomas/+79539514221/Google and Time: 1:58:44
+Path: /data and Time: 1:58:44
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 2:00:40
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /data and Time: 2:00:48
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /data and Time: 2:02:36
