@@ -1,18 +1,27 @@
 using dotNETLearning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+
+var adminRole = new Role("admin");
+var userRole = new Role("user");
 
 var people = new List<Person>
 {
-    new Person("timoshka@mail.ru", "12345"),
-    new Person("tima@mail.ru", "123")
+    new Person("timoshka@mail.ru", "12345", adminRole),
+    new Person("tima@mail.ru", "123", userRole)
 };
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/login");
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/login";
+    options.AccessDeniedPath = "/accessdenied";
+});
+
 
 
 builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
@@ -49,67 +58,138 @@ app.Use(async (context, next) =>
     await next.Invoke(context);
 });
 
-app.MapGet("/login/{username}/{phoneNumber}/{company}", async (string username, string phoneNumber, string company, HttpContext context) =>
-{
-    var claims = new List<Claim> {
-        new (ClaimTypes.Name, username),
-        new (ClaimTypes.MobilePhone, phoneNumber),
-        new ("company", company),
-        new ("language", "Russian"),
-        new ("language", "English"),
-        new ("language", "Spanish"),
+//app.MapGet("/login/{username}/{phoneNumber}/{company}", async (string username, string phoneNumber, string company, HttpContext context) =>
+//{
+//    var claims = new List<Claim> {
+//        new (ClaimTypes.Name, username),
+//        new (ClaimTypes.MobilePhone, phoneNumber),
+//        new ("company", company),
+//        new ("language", "Russian"),
+//        new ("language", "English"),
+//        new ("language", "Spanish"),
 
+//    };
+//    var claimIdentity = new ClaimsIdentity(claims, "Cookies");
+//    var claimPrincipal = new ClaimsPrincipal(claimIdentity);
+
+//    await context.SignInAsync(claimPrincipal);
+//    return Results.Redirect("/data");
+//});
+
+app.MapGet("/login", async (HttpContext context) =>
+{
+    context.Response.ContentType = "text/html; charset=utf-8";
+    string loginForm = @"<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8' />
+        <title>METANIT.COM</title>
+    </head>
+    <body>
+        <h2>Login Form</h2>
+        <form method='post'>
+            <p>
+                <label>Email</label><br />
+                <input name='email' />
+            </p>
+            <p>
+                <label>Password</label><br />
+                <input type='password' name='password' />
+            </p>
+            <input type='submit' value='Login' />
+        </form>
+    </body>
+    </html>";
+    await context.Response.WriteAsync(loginForm);
+});
+
+app.MapPost("/logi" + "n", async (string? returnUrl, HttpContext context) =>
+{
+    returnUrl = null;
+
+    var form = context.Request.Form;
+    if (!form.ContainsKey("email") || !form.ContainsKey("password"))
+        return Results.BadRequest("Email и/или пароль не введены");
+
+    var email = form["email"];
+    var password = form["password"];
+
+    Person? person = people.FirstOrDefault(p => p.email == email && p.password == password);
+
+    if (person is null)
+        return Results.Unauthorized();
+
+    var claims = new List<Claim> { 
+    new Claim(ClaimsIdentity.DefaultNameClaimType, person.email),
+    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.role.Name),
     };
-    var claimIdentity = new ClaimsIdentity(claims, "Cookies");
+
+    var claimIdentity = new ClaimsIdentity(claims, "Cookie");
     var claimPrincipal = new ClaimsPrincipal(claimIdentity);
 
     await context.SignInAsync(claimPrincipal);
-    return Results.Redirect("/data");
+    return Results.Redirect(returnUrl ?? "/data");    
 });
 
-app.MapGet("/addage/{age}", async (HttpContext context, string age) =>
+app.Map("/admin", [Authorize(Roles = "admin")] () => "Admin panel");
+
+app.MapGet("/accessdenied",  (HttpContext context) =>
 {
-    if (context.User.Identity is ClaimsIdentity claimsIdentity)
-    {
-        claimsIdentity.AddClaims(new[] { new Claim("age", age) });
-        
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        context.SignInAsync(claimsPrincipal);
-    }
-    return Results.Redirect("/data");
+    context.Response.StatusCode = 403;
+    return Results.Text("Access denied");
 });
 
-app.MapGet("/removephone", async (HttpContext context) =>
-{
-    if(context.User.Identity is ClaimsIdentity claimsIdentity)
-    {
-        var phoneNumber = claimsIdentity.FindFirst(ClaimTypes.MobilePhone);
-        if (claimsIdentity.TryRemoveClaim(phoneNumber))
-        {
-            var claimPrincipal = new ClaimsPrincipal (claimsIdentity);
-            await context.SignInAsync(claimPrincipal);
-        }
-    }
-    return Results.Redirect("/data");
-});
+//app.MapGet("/addage/{age}", async (HttpContext context, string age) =>
+//{
+//    if (context.User.Identity is ClaimsIdentity claimsIdentity)
+//    {
+//        claimsIdentity.AddClaims(new[] { new Claim("age", age) });
+
+//        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+//        context.SignInAsync(claimsPrincipal);
+//    }
+//    return Results.Redirect("/data");
+//});
+
+//app.MapGet("/removephone", async (HttpContext context) =>
+//{
+//    if (context.User.Identity is ClaimsIdentity claimsIdentity)
+//    {
+//        var phoneNumber = claimsIdentity.FindFirst(ClaimTypes.MobilePhone);
+//        if (claimsIdentity.TryRemoveClaim(phoneNumber))
+//        {
+//            var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
+//            await context.SignInAsync(claimPrincipal);
+//        }
+//    }
+//    return Results.Redirect("/data");
+//});
 
 
-app.Map("/data", (HttpContext context) =>
+//app.Map("/data", (HttpContext context) =>
+//{
+//    var user = context.User.Identity;
+//    var userName = context.User.FindFirst(ClaimTypes.Name);
+//    var phoneNumber = context.User.FindFirst(ClaimTypes.MobilePhone);
+//    var company = context.User.FindFirst("company");
+//    var age = context.User.FindFirst("age");
+//    var languages = context.User.FindAll("language");
+//    var stringLanguage = string.Empty;
+//    foreach (var language in languages)
+//    {
+//        stringLanguage = $"{stringLanguage} {language.Value}";
+//    }
+//    if (user.IsAuthenticated)
+//        return $"Username: {userName?.Value} Phone: {phoneNumber?.Value} Company: {company?.Value} Age: {age} \nLanguages: {stringLanguage}";
+//    else return "Пользователь не ауетентифицирован";
+//});
+
+app.Map("/data", [Authorize(Roles = "admin, user")](HttpContext context) =>
 {
-    var user = context.User.Identity;
-    var userName = context.User.FindFirst(ClaimTypes.Name);
-    var phoneNumber = context.User.FindFirst(ClaimTypes.MobilePhone);
-    var company = context.User.FindFirst("company");
-    var age = context.User.FindFirst("age");
-    var languages = context.User.FindAll("language");
-    var stringLanguage = "";
-    foreach (var language in languages)
-    {
-        stringLanguage = $"{stringLanguage} {language.Value}";
-    }
-    if (user.IsAuthenticated)
-        return $"Username: {userName?.Value} Phone: {phoneNumber?.Value} Company: {company?.Value} Age: {age} \nLanguages: {stringLanguage}";
-    else return "Пользователь не ауетентифицирован";
+    var Username = context.User.FindFirst(ClaimsIdentity.DefaultNameClaimType);
+    var Userrole = context.User.FindFirst(ClaimsIdentity.DefaultRoleClaimType);
+
+    return Results.Text($"Name: {Username?.Value}   Role: {Userrole?.Value}");
 });
 
 app.MapGet("/logout", async (HttpContext context) =>

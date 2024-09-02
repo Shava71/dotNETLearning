@@ -581,3 +581,68 @@ Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
 Path: /data and Time: 2:02:36
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 13:13:07
+Path: /accessdenied and Time: 13:13:17
+An unhandled exception has occurred while executing the request.
+Path: /logout and Time: 13:15:52
+Path: /login/Tomas/+79539514221/Google and Time: 13:15:55
+An unhandled exception has occurred while executing the request.
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 13:17:56
+An unhandled exception has occurred while executing the request.
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /login and Time: 13:18:56
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /login and Time: 13:19:03
+Path: /login and Time: 13:20:03
+An unhandled exception has occurred while executing the request.
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /login and Time: 13:47:27
+Path: /data and Time: 13:47:27
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 13:48:23
+Path: /data and Time: 13:48:33
+Path: /data and Time: 13:48:35
+Path: /data and Time: 13:48:35
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: / and Time: 13:50:08
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Mac\Home\Desktop\dotNETLearning\dotNETLearning
+Path: /accessdenied and Time: 13:50:49
+Path: /logout and Time: 13:51:00
+Path: /login and Time: 13:51:06
+Path: /login and Time: 13:53:01
+Path: /data and Time: 13:53:01
+Path: /admin and Time: 13:53:09
