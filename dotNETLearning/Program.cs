@@ -1,4 +1,4 @@
-using dotNETLearning;
+п»їusing dotNETLearning;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -109,7 +109,7 @@ app.MapPost("/logi" + "n", async (string? returnUrl, HttpContext context) =>
 
     var form = context.Request.Form;
     if (!form.ContainsKey("email") || !form.ContainsKey("password"))
-        return Results.BadRequest("Email и/или пароль не введены");
+        return Results.BadRequest("Email Рё/РёР»Рё РїР°СЂРѕР»СЊ РЅРµ РІРІРµРґРµРЅС‹");
 
     var email = form["email"];
     var password = form["password"];
@@ -195,7 +195,7 @@ app.Map("/data", [Authorize(Roles = "admin, user")](HttpContext context) =>
 app.MapGet("/logout", async (HttpContext context) =>
 {
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-    return "Данные удалены";
+    return "Р”Р°РЅРЅС‹Рµ СѓРґР°Р»РµРЅС‹";
 });
 
 app.Run();
