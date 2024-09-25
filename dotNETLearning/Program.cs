@@ -9,20 +9,22 @@ var userRole = new Role("user");
 
 var people = new List<Person>
 {
-    new Person("timoshka@mail.ru", "12345", adminRole),
-    new Person("tima@mail.ru", "123", userRole)
+    new Person("timoshka@mail.ru", "12345", adminRole, "London", "Microsoft"),
+    new Person("tima@mail.ru", "123", userRole, "Berlin", "Mercedes"),
 };
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OnlyForMicrosoft", policy => policy.RequireClaim("Company", "Microsoft"));
+    options.AddPolicy("OnlyForBerlin", policy => policy.RequireClaim(ClaimTypes.Locality, "Berlin"));
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.LoginPath = "/login";
     options.AccessDeniedPath = "/accessdenied";
 });
-
-
 
 builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
 
@@ -103,7 +105,7 @@ app.MapGet("/login", async (HttpContext context) =>
     await context.Response.WriteAsync(loginForm);
 });
 
-app.MapPost("/logi" + "n", async (string? returnUrl, HttpContext context) =>
+app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
 {
     returnUrl = null;
 
@@ -122,6 +124,8 @@ app.MapPost("/logi" + "n", async (string? returnUrl, HttpContext context) =>
     var claims = new List<Claim> { 
     new Claim(ClaimsIdentity.DefaultNameClaimType, person.email),
     new Claim(ClaimsIdentity.DefaultRoleClaimType, person.role.Name),
+    new Claim(ClaimTypes.Locality, person.City),
+    new Claim("Company", person.Company)
     };
 
     var claimIdentity = new ClaimsIdentity(claims, "Cookie");
@@ -137,6 +141,7 @@ app.MapGet("/accessdenied",  (HttpContext context) =>
 {
     context.Response.StatusCode = 403;
     return Results.Text("Access denied");
+
 });
 
 //app.MapGet("/addage/{age}", async (HttpContext context, string age) =>
@@ -188,9 +193,15 @@ app.Map("/data", [Authorize(Roles = "admin, user")](HttpContext context) =>
 {
     var Username = context.User.FindFirst(ClaimsIdentity.DefaultNameClaimType);
     var Userrole = context.User.FindFirst(ClaimsIdentity.DefaultRoleClaimType);
+    var City = context.User.FindFirst(ClaimTypes.Locality);
+    var Company = context.User.FindFirst("Company");
 
-    return Results.Text($"Name: {Username?.Value}   Role: {Userrole?.Value}");
+    return Results.Text($"Name: {Username?.Value}   Role: {Userrole?.Value}   City: {City?.Value}   Company: {Company?.Value} ");
 });
+
+app.Map("/Berlin", [Authorize(Policy = "OnlyForBerlin")] () => " U r living in Berlin");
+
+app.Map("/Microsoft", [Authorize(Policy = "OnlyForMicrosoft")] () => " U r working in Microsoft");
 
 app.MapGet("/logout", async (HttpContext context) =>
 {
