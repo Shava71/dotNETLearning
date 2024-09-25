@@ -724,3 +724,4 @@ Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
 Path: / and Time: 08:45:02
 Path: /data and Time: 08:45:07
 Path: /Berlin and Time: 08:45:11
+Application is shutting down...
