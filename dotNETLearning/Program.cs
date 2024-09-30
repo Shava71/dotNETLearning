@@ -9,16 +9,18 @@ var userRole = new Role("user");
 
 var people = new List<Person>
 {
-    new Person("timoshka@mail.ru", "12345", adminRole, "London", "Microsoft"),
-    new Person("tima@mail.ru", "123", userRole, "Berlin", "Mercedes"),
+    new Person("timoshka@mail.ru", "12345", 2004, adminRole, "London", "Microsoft"),
+    new Person("tima@mail.ru", "123", 2010, userRole, "Berlin", "Mercedes"),
 };
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<IAuthorizationHandler, AgeHandler>();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("OnlyForMicrosoft", policy => policy.RequireClaim("Company", "Microsoft"));
     options.AddPolicy("OnlyForBerlin", policy => policy.RequireClaim(ClaimTypes.Locality, "Berlin"));
+    options.AddPolicy("AgeLimit", policy => policy.AddRequirements(new AgeRequirement(18)));
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
@@ -124,6 +126,7 @@ app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
     var claims = new List<Claim> { 
     new Claim(ClaimsIdentity.DefaultNameClaimType, person.email),
     new Claim(ClaimsIdentity.DefaultRoleClaimType, person.role.Name),
+    new Claim(ClaimTypes.DateOfBirth, person.year.ToString()),
     new Claim(ClaimTypes.Locality, person.City),
     new Claim("Company", person.Company)
     };
@@ -195,13 +198,27 @@ app.Map("/data", [Authorize(Roles = "admin, user")](HttpContext context) =>
     var Userrole = context.User.FindFirst(ClaimsIdentity.DefaultRoleClaimType);
     var City = context.User.FindFirst(ClaimTypes.Locality);
     var Company = context.User.FindFirst("Company");
-
-    return Results.Text($"Name: {Username?.Value}   Role: {Userrole?.Value}   City: {City?.Value}   Company: {Company?.Value} ");
+    var Year = context.User.FindFirst( ClaimTypes.DateOfBirth);
+    if (int.TryParse(Year?.Value, out var year) )
+    {
+        var age = DateTime.Now.Year - year;
+        
+        return Results.Text(
+            $"Name: {Username?.Value}   Role: {Userrole?.Value}   Age: {age}   " +
+            $"City: {City?.Value}   Company: {Company?.Value} ");
+    }
+    else return Results.BadRequest("Bad Year value");
+    // return Results.Text(
+    // $"Name: {Username?.Value}   Role: {Userrole?.Value}   Year: {Year?.Value}   " +
+    // $"City: {City?.Value}   Company: {Company?.Value} ");
+    
 });
 
 app.Map("/Berlin", [Authorize(Policy = "OnlyForBerlin")] () => " U r living in Berlin");
 
 app.Map("/Microsoft", [Authorize(Policy = "OnlyForMicrosoft")] () => " U r working in Microsoft");
+
+app.Map("/Age", [Authorize(Policy = "AgeLimit")] () => "Age limit is passed");
 
 app.MapGet("/logout", async (HttpContext context) =>
 {
