@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNETLearning", "dotNETLearning\dotNETLearning.csproj", "{31733332-996E-4156-961B-EC5E775BD92B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CORS", "CORS\CORS.csproj", "{806135E0-031E-45AF-A921-9046FDECC7AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{31733332-996E-4156-961B-EC5E775BD92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31733332-996E-4156-961B-EC5E775BD92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31733332-996E-4156-961B-EC5E775BD92B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806135E0-031E-45AF-A921-9046FDECC7AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806135E0-031E-45AF-A921-9046FDECC7AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806135E0-031E-45AF-A921-9046FDECC7AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806135E0-031E-45AF-A921-9046FDECC7AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

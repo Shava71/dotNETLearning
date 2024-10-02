@@ -892,3 +892,10 @@ Path: /login and Time: 10:23:21
 Path: /login and Time: 10:23:39
 Path: /data and Time: 10:23:39
 Path: /accessdenied and Time: 10:23:44
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Failed to determine the https port for redirect.
+Path: / and Time: 22:44:16
+Application is shutting down...
