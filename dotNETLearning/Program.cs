@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,13 +11,12 @@ builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.tx
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddCors();
 
 var app = builder.Build();
 
-app.UseCors(builder => builder.AllowAnyOrigin());
-//app.UseDefaultFiles();
-//app.UseStaticFiles();
+var options = new RewriteOptions().AddRedirect("data[/]?$", "data/index")
+    .AddRewrite("(?i)data/index", "data/about", skipRemainingRules: false);
+app.UseRewriter(options);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -40,6 +40,20 @@ app.Use(async (context, next) =>
 {
     app.Logger.LogInformation($"Path: {context.Request.Path} and Time: {DateTime.Now.ToLongTimeString()}");
     await next.Invoke(context);
+});
+
+app.Map("/data", (HttpContext context) =>
+{
+    context.Response.WriteAsync("data page");
+});
+
+app.Map("/data/index", (HttpContext context) =>
+{
+    context.Response.WriteAsync("data-index page");
+});
+app.MapGet("/data/about", (HttpContext context) =>
+{
+    context.Response.WriteAsync("real path: " + context.Request.Path);
 });
 
 

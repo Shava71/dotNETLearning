@@ -899,3 +899,54 @@ Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
 Failed to determine the https port for redirect.
 Path: / and Time: 22:44:16
 Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:19:49
+Path: /home and Time: 14:19:57
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:20:59
+Path: /data and Time: 14:21:09
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:23:32
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:23:42
+Path: /data/index and Time: 14:23:48
+Path: /data/ind and Time: 14:23:53
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:31:07
+Path: /data/about and Time: 14:31:09
+Path: /data/about and Time: 14:31:10
+Application is shutting down...
+Now listening on: https://localhost:7049
+Now listening on: http://localhost:5042
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: /Users/mac/Desktop/dotNETLearning/dotNETLearning
+Path: / and Time: 14:36:23
+Path: /data/about and Time: 14:36:26
+Path: /data/about and Time: 14:36:34
+Path: /data/about and Time: 14:36:38
+Application is shutting down...

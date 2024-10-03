@@ -12,10 +12,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f9af28d9-62bc-4338-be2b-c60c269ddaf0" name="Changes" comment="">
+    <list default="true" id="f9af28d9-62bc-4338-be2b-c60c269ddaf0" name="Changes" comment="CORS">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.dotNETLearning/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.dotNETLearning/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dotNETLearning.sln" beforeDir="false" afterPath="$PROJECT_DIR$/dotNETLearning.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dotNETLearning/Pages/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/dotNETLearning/Pages/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dotNETLearning/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/dotNETLearning/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dotNETLearning/logger.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dotNETLearning/logger.txt" afterDir="false" />
     </list>
@@ -96,7 +94,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.CORS: https">
+  <component name="RunManager" selected=".NET Launch Settings Profile.dotNETLearning: https">
     <configuration name="CORS: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/CORS/CORS.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
@@ -173,7 +171,7 @@
       <workItem from="1725515993940" duration="544000" />
       <workItem from="1726894218512" duration="1994000" />
       <workItem from="1727241035375" duration="2369000" />
-      <workItem from="1727895380417" duration="2975000" />
+      <workItem from="1727895380417" duration="7541000" />
     </task>
     <task id="LOCAL-00001" summary="Policy">
       <option name="closed" value="true" />
@@ -191,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727243328272</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="CORS">
+      <option name="closed" value="true" />
+      <created>1727898701000</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727898701000</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,7 +232,8 @@
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Policy" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="CORS" />
+    <option name="LAST_COMMIT_MESSAGE" value="CORS" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
